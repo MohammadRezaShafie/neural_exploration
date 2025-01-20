@@ -9,3 +9,4 @@ from .ucbvi import *
 from .utils import *
 from .LNUCBTA import *
 from .POLYUCB import *
+from .Wheelbandit import *
