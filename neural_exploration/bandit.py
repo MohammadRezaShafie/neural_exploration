@@ -15,7 +15,6 @@ class ContextualBandit():
                  ):
         # if not None, freeze seed for reproducibility
         self._seed(seed)
-
         # number of rounds
         self.T = T
         # number of arms
@@ -50,6 +49,8 @@ class ContextualBandit():
         x = np.random.randn(self.T, self.n_arms, self.n_features)
         x /= np.repeat(np.linalg.norm(x, axis=-1, ord=2), self.n_features).reshape(self.T, self.n_arms, self.n_features)
         self.features = x
+        print(f"{self.features=}")
+        print(f"{self.features.shape=}")
 
     def reset_rewards(self):
         """Generate rewards for each arm and each round,
