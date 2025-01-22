@@ -25,32 +25,6 @@ class LNUCBTA(UCB):
         train_every=1,
         throttle=int(1e2),
     ):
-        """
-        Parameters
-        ----------
-        bandit: object
-            The bandit problem instance (must have .features, .rewards, etc.).
-        alpha: float
-            Base coefficient for the dynamic exploration scale.
-        min_threshold: float
-            The minimum threshold on reward history length before using KNN.
-        max_threshold: float
-            The maximum threshold on reward history length for KNN.
-        kappa_weight: float
-            Weight to mix overall average reward with local average reward.
-        reg_factor: float
-            Regularization term (\lambda).
-        delta: float
-            Used to compute confidence intervals with probability 1 - delta.
-        bound_theta: float
-            Range for random initialization of theta.
-        confidence_scaling_factor: float
-            If -1, we use bandit.noise_std; else a user-provided scaling factor.
-        train_every: int
-            Update parameters every train_every steps.
-        throttle: int
-            TQDM display frequency.
-        """
         self.alpha = alpha
         self.min_threshold = min_threshold
         self.max_threshold = max_threshold
@@ -176,8 +150,8 @@ class LNUCBTA(UCB):
                 knn_preds[arm] = knn.predict(feats_ta)[0]
 
         # Combine linear + KNN into mu_hat
-        # self.mu_hat[t] = linear_preds + knn_preds
-        self.mu_hat[t] = self.w_knn * knn_preds + (1 - self.w_knn) * linear_preds
+        self.mu_hat[t] = linear_preds + knn_preds
+        # self.mu_hat[t] = self.w_knn * knn_preds + (1 - self.w_knn) * linear_preds
 
     def update_confidence_bounds(self):
         # Step 1: gradient approx for each arm
